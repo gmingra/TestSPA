@@ -5,53 +5,56 @@
     <title>Title</title>
 
     <script>
-        function manageclick(){
+
+        function manageclick() {
 
             let id = document.getElementById("id").value;
             let description = document.getElementById("description").value;
             let amount = document.getElementById("amount").value;
 
-            let iderr = document.getElementById("iderr").value;
-            let descriptionerr = document.getElementById("descriptionerr").value;
-            let amounterr = document.getElementById("amounterr").value;
+            let iderr = document.getElementById("iderr");
+            let descriptionerr = document.getElementById("descriptionerr");
+            let amounterr = document.getElementById("amounterr");
 
             iderr.innerText="";
             descriptionerr.innerText="";
             amounterr.innerText="";
+            console.log("empty!");
 
             let xmlHttp = new XMLHttpRequest();
 
-            xmlHttp.onreadystatechange = function (){
-                //opera nel momento di arrivo della risposta alla richiesta get
-                if(xmlHttp.readyState== 4)     //completed!
-                    if(xmlHttp.status==200) {   //OK  (completata con successo)
+            xmlHttp.onreadystatechange = function () {
+
+                // XML
+                if (xmlHttp.readyState == 4)
+                    if (xmlHttp.status == 200) {
                         let response = xmlHttp.responseXML;
-                        let err1 = response.getElementsByName("msg1");
-                        let err2 = response.getElementsByName("msg2");
-                        let err3 = response.getElementsByName("msg3");
+                        let err1 = response.getElementsByTagName("msg1");
+                        let err2 = response.getElementsByTagName("msg2");
+                        let err3 = response.getElementsByTagName("msg3");
 
                         let b = true;
-                        if(err1[0]){
+                        if (err1[0]) {
                             iderr.innerText = err1[0].firstChild.nodeValue;
                             b = false;
                         }
-                        if(err2[0]){
+                        if (err2[0]) {
                             descriptionerr.innerText = err2[0].firstChild.nodeValue;
                             b = false;
                         }
-                        if(err1[0]){
+                        if (err3[0]) {
                             amounterr.innerText = err3[0].firstChild.nodeValue;
                             b = false;
-
-
-                            document.getElementById("response").innerText="Saved invoice!!";
                         }
-                    }
 
+                        if (b)
+                            document.getElementById("response").innerText="Inserted invoice!";
+                    }
             }
 
-            //asincrona --> true
-            xmlHttp.open("GET", "http://localhost:8080/TestSPA_war_exploded/validation?id=" +  "&id=" + id + "&description" + description + "&amount" + amount, true)          //Verbo, URL da contattare
+            xmlHttp.open("GET",
+                "http://localhost:8080/TestSPA_war_exploded/validation?id="+ id + "&descrizione=" + description + "&importo=" + amount
+                , true);
             xmlHttp.send(null);
         }
 
@@ -59,28 +62,21 @@
 </head>
 <body>
 
-Id: <input type=text" id="id">
-
+Id: <input type="text" id="id">
 <span id="iderr"></span>
 <br/>
-<br/>
-Descrizione: <input type=text" id="description">
+
+Desc: <input type="text" id="description">
 <span id="descriptionerr"></span>
 <br/>
-<br/>
-Importo: <input type="text" id="amount">
+
+Imp: <input type="text" id="amount">
 <span id="amounterr"></span>
 <br/>
+
+<button onclick="manageclick()">Send</button>
 <br/>
-<button onclick="manageclick()">Salva</button>
-<br/>
 
-<div id="response">
-
-
-
-
-
+<div id="response"></div>
 
 </body>
-</html>
