@@ -53,7 +53,7 @@
             }
 
             xmlHttp.open("GET",
-                "http://localhost:8080/TestSPA_war_exploded/validation?id="+ id + "&descrizione=" + description + "&importo=" + amount
+                "http://localhost:8080/TestSPA_war_exploded/validation?id="+ id + "&description=" + description + "&amount=" + amount
                 , true);
             xmlHttp.send(null);
         }
@@ -62,19 +62,23 @@
 </head>
 <body>
 
-Id: <input type="text" id="id">
+ID: <input type="text" id="id">
 <span id="iderr"></span>
 <br/>
-
-Desc: <input type="text" id="description">
-<span id="descriptionerr"></span>
 <br/>
 
-Imp: <input type="text" id="amount">
+Descrizione: <input type="text" id="description">
+<span id="descriptionerr"></span>
+<br/>
+<br/>
+
+Importo: <input type="text" id="amount">
 <span id="amounterr"></span>
+<br/>
 <br/>
 
 <button onclick="manageclick()">Send</button>
+<br/>
 <br/>
 
 <div id="response"></div>
