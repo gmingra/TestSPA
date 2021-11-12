@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script>
+        function manageclick(){
+
+            let id = document.getElementById("id").value;
+            let description = document.getElementById("description").value;
+            let amount = document.getElementById("amount").value;
+
+            let iderr = document.getElementById("iderr").value;
+            let descriptionerr = document.getElementById("descriptionerr").value;
+            let amounterr = document.getElementById("amounterr").value;
+
+            iderr.innerText="";
+            descriptionerr.innerText="";
+            amounterr.innerText="";
+
+            let xmlHttp = new XMLHttpRequest();
+
+            xmlHttp.onreadystatechange = function (){
+                //opera nel momento di arrivo della risposta alla richiesta get
+                if(xmlHttp.readyState== 4)     //completed!
+                    if(xmlHttp.status==200) {   //OK  (completata con successo)
+                        let response = xmlHttp.responseXML;
+                        let err1 = response.getElementsByName("msg1");
+                        let err2 = response.getElementsByName("msg2");
+                        let err3 = response.getElementsByName("msg3");
+
+                        let b = true;
+                        if(err1[0]){
+                            iderr.innerText = err1[0].firstChild.nodeValue;
+                            b = false;
+                        }
+                        if(err2[0]){
+                            descriptionerr.innerText = err2[0].firstChild.nodeValue;
+                            b = false;
+                        }
+                        if(err1[0]){
+                            amounterr.innerText = err3[0].firstChild.nodeValue;
+                            b = false;
+
+
+                            document.getElementById("response").innerText="Saved invoice!!";
+                        }
+                    }
+
+            }
+
+            //asincrona --> true
+            xmlHttp.open("GET", "http://localhost:8080/TestSPA_war_exploded/validation?id=" +  "&id=" + id + "&description" + description + "&amount" + amount, true)          //Verbo, URL da contattare
+            xmlHttp.send(null);
+        }
+
+    </script>
+</head>
+<body>
+
+Id: <input type=text" id="id">
+
+<span id="iderr"></span>
+<br/>
+<br/>
+Descrizione: <input type=text" id="description">
+<span id="descriptionerr"></span>
+<br/>
+<br/>
+Importo: <input type="text" id="amount">
+<span id="amounterr"></span>
+<br/>
+<br/>
+<button onclick="manageclick()">Salva</button>
+<br/>
+
+<div id="response">
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script>
+        function f1(a, b){        //Se mettiamo parametri, vengono "ritenuti" a valorizzazione obbligatoria
+            console.log("in f1 " + a + " " + b)
+
+            console.log(f1.arguments.length)
+            for(i=0; i<f1.arguments.length; i++)
+                console.log(f1.arguments[i]);      //il terzo argomento(30) viene comunque stampato agendo quindi anche su elementi non nominati
+        }
+
+        f1(10);
+
+        console.log(typeof(f1));
+
+
+        //DEFAULT VALUES MANAGEMENT
+        function makeRequest(url, timeout=6000, callback){
+
+            // 1 metodo
+            timeout = timeout || 2000;                  //Truthy/falsy: se il primo risulato dell'espressione è falso, si passa al secondo (quando ad esempio è un valore non definito o di default)
+            callback = callback || function () {};
+
+            // 2 metodo
+            timeout = (typeof timeout !== "undefined" ) ? timeout : 3000;    //equivalente a quella sopra ma con il tipo di dato
+
+
+            // ==, ===
+            //!=, !==
+            let b = 10;
+            let c = "10"
+            if(b==="10")     //fa le conversioni implicite
+
+            console.log(url);
+            console.log(timeout);
+            console.log(callback);
+
+        }
+
+        makeRequest("/.go.html");
+
+
+        //DERIVAZIONE VALORI DI DEFAULT DA ALTRE FUNZIONI
+
+        let value = 5;
+        function getValue(){
+            return value++;
+        }
+
+        function add(first, second=getValue()){
+            return first + second;
+        }
+
+        console.log(add(1, 1));
+        console.log(add(1));
+        console.log(add(1));
+
+
+        //FUNZIONE MANAGE CLICK (BOTTONE)
+
+        function manageclick(){
+            //alert("ok");
+            let username = document.getElementById("username").value;          //document: fa comunicare il codice javascript con il body dell'html
+
+            //AJAX - Asynchronous JavaScript And XML        (comunicazione tra front end e back end)
+
+            let xmlHttp = new XMLHttpRequest();
+
+            //JSON
+            /*
+            xmlHttp.onreadystatechange = function (){
+                //opera nel momento di arrivo della risposta alla richiesta get
+                if(xmlHttp.readyState== 4)     //completed!
+                    if(xmlHttp.status==200) {   //OK  (completata con successo)
+                        let response = JSON.parse(xmlHttp.responseText);
+                        console.log(response);
+                        document.getElementById("response").innerText=response.message;
+
+                    }
+             */
+
+            //XML
+            xmlHttp.onreadystatechange = function (){
+                //opera nel momento di arrivo della risposta alla richiesta get
+                if(xmlHttp.readyState== 4)     //completed!
+                    if(xmlHttp.status==200) {   //OK  (completata con successo)
+                        let response = xmlHttp.responseXML;
+                        console.log(response);
+                        console.log(response.getElementsByTagName("message")[0].firstChild.nodeValue);     //interrogazione per tag(message)
+                        //document.getElementById("response").innerText=response.message;
+
+                    }
+
+            }
+
+            //asincrona --> true
+            xmlHttp.open("GET", "http://localhost:8080/TestSPA_war_exploded/backend?ts=" + new Date().getTime() +  "&username=" + username, true)          //Verbo, URL da contattare
+            xmlHttp.send(null);
+        }
+
+
+
+
+    </script>
+</head>
+<body>
+
+    Username: <input type=text" id="username">
+    <br/>
+    <button onclick="manageclick()">Send</button>
+    <br/>
+
+    <div id="response"></div>
+
+
+
+
+</body>
+</html>

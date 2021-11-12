@@ -1,0 +1,152 @@
+<html>
+<head>
+    <title>JSP - Hello World</title>
+
+    <!-- JavaScript opera principalmente nella parte "head"
+    essendo tutto quello contenuto qui una funzione globale -->
+
+
+    <script>
+
+        var a = "giuseppe";         //var o let; il tipo di dato è definito dall'oggetto referenziato
+        console.log(a);             //Per stampare la variabile
+        console.log(typeof a);      //Il tipo viene scoperto runtime
+
+        a = 10;                     //JavaScript non è tipizzato
+        console.log(a);
+        console.log(typeof a);
+
+        a = true;
+        console.log(a);
+        console.log(typeof a);
+
+        var b = undefined;            //Variabile non assegnata, ma è anche un tipo di dato
+        //var b = null;               //Assegnare un oggetto con valore null
+        console.log(b);
+        console.log(typeof b);
+
+        b = null;
+        console.log(typeof b);
+
+        function getValue(condition) {  //funzione, nome funzione, condizione
+
+            var value;  //hoisting
+
+            if (condition){
+                //ar value = "blue";     //tutte le variabili definite con la var lo sono a livello di funzione
+
+                return value;
+
+            } else
+            {
+                console.log(value);
+                return null;
+            }
+        }
+
+        getValue(false)
+
+
+
+
+        function getValue2(condition) {  //funzione, nome funzione, condizione
+
+            if (condition){
+                let value = "blue";   //con la let l'hoisting non avviene
+
+                return value;
+
+            } else
+            {
+                console.log(value);
+                return null;
+            }
+        }
+
+        getValue2(true)
+
+        function getValue3(){
+            //var count = 30;
+            //var count = ss;             //si può dichiarare una variabile
+
+            let count = 50;           //non si può fare ridenominazione da var a let
+            const maxItems = 30;
+            //const a;
+        }
+
+        getValue3();
+
+        //JSON - Java Script Object Notation
+        const person = {                   //oggetto persona
+            name:"giuseppe"                //name(chiave), giuseppe(valore)
+        }
+
+        //const person = {}          NO, perchè l'pggetto era già definito
+        person.name = "maria";        //Si può fare
+
+
+        //VARIABILI CICLO
+
+        function process(v){
+        console.log(v)
+        }
+
+
+        function manage(){
+            var items = ["a", "b", "c"];
+            for(var i=0; i<items.length; i++)  //con let i=0 dice che non è definita
+                process(items[i]);
+
+            console.log(i);
+        }
+
+        //manage();
+
+        /*
+        DOUBLE PASS
+        function process(v){
+        console.log(v)
+        }
+         */
+
+
+        //CLOSURE : Accesso a più variabili di una funzione quando la funzione non ha definito quelle variabili
+
+        var funcs =[];      //Array e collezioni
+        for(let i=0; i<10; i++){
+            funcs.push(function (){          //Si può fare perchè non tipizzato
+                    console.log(i);          //Accede alla varibile i anche se esterna
+            })
+        }
+
+        funcs.forEach(function(func){
+            func();
+
+        })
+
+
+        //VARIABILI GLOBALI
+        var o = "giuseppe";     //PERICOLOSA
+
+        function f1(){
+            console.log(o)
+            o = "aa";           // variabile o facilmente modificabile
+
+        }
+
+        //ESPRESSIONE REGOLARE
+        console.log(window.RegExp);             //oggetto windows è il contenitore globale (metterlo o non metterlo è la stessa cosa)
+        console.log(window.o);                  //"sporchiamo" il codice (la varibile o essendo globale è contenuto di default in window)
+
+        var RegExp = "maria";                   //Si può fare (modificare un oggetto predefinito)
+        console.log(window.RegExp);
+
+
+
+    </script>
+</head>
+<body>
+</h1>
+<br/>
+</body>
+</html>
